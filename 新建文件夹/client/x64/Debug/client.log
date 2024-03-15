@@ -1,0 +1,4 @@
+﻿  minIni.c
+  源.cpp
+C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\client\源.cpp(28,7): warning C4101: “ip_server”: 未引用的局部变量
+  client.vcxproj -> C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\x64\Debug\client.exe
