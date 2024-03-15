@@ -11,7 +11,11 @@ using namespace std;
 
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
 
-
+void clear_cin() {
+	//用来清空缓冲区的函数
+	char c;
+	while ((c = getchar()) != '\n');
+}
 
 class commands {
 public:
@@ -107,6 +111,7 @@ void working(sockaddr_in addr, SOCKET& client) {
 			if (strcmp("ping", cmds.command) == 0)
 			{
 				send(client, (char*)&cmds, sizeof(commands), 0);
+				clear_cin();
 			}
 			//哈希表操作------------------
 			else if (strcmp("set", cmds.command) == 0)
@@ -114,17 +119,20 @@ void working(sockaddr_in addr, SOCKET& client) {
 				std::cin >> cmds.key;
 				std::cin >> cmds.value;
 				send(client, (char*)&cmds, sizeof(commands), 0);
+				clear_cin();
 			}
 			//command为字符串类型
 			else if (strcmp("get", cmds.command) == 0)
 			{//这个分支还有一个参数
 				std::cin >> cmds.key;
 				send(client, (char*)&cmds, sizeof(commands), 0);
+				clear_cin();
 			}
 			else if (strcmp("del", cmds.command) == 0)
 			{
 				std::cin >> cmds.key;
 				send(client, (char*)&cmds, sizeof(commands), 0);
+				clear_cin();
 			}
 			//双向链表相关--------------
 			else if (strcmp("lpush", cmds.command) == 0)
@@ -132,18 +140,21 @@ void working(sockaddr_in addr, SOCKET& client) {
 				std::cin >> cmds.key;
 				std::cin >> cmds.value;
 				send(client, (char*)&cmds, sizeof(commands), 0);
+				clear_cin();
 			}
 			else if (strcmp("rpush", cmds.command) == 0)
 			{
 				std::cin >> cmds.key;
 				std::cin >> cmds.value;
 				send(client, (char*)&cmds, sizeof(commands), 0);
+				clear_cin();
 			}
 			else if (strcmp("range", cmds.command) == 0)
 			{
 				std::cin >> cmds.key;
 				std::cin >> cmds.start;
 				std::cin >> cmds.end;
+				clear_cin();
 				send(client, (char*)&cmds, sizeof(commands), 0);
 				char flag[10] = { 0 };//判断一下到底有没有这个key
 				recv(client, flag, sizeof(flag), 0);//1
@@ -190,6 +201,7 @@ void working(sockaddr_in addr, SOCKET& client) {
 			else if (strcmp("len", cmds.command) == 0)
 			{
 				std::cin >> cmds.key;
+				clear_cin();
 				send(client, (char*)&cmds, sizeof(commands), 0);
 				recv(client, (char*)&cmds, sizeof(commands), 0);
 				if (cmds.flag)
@@ -206,6 +218,7 @@ void working(sockaddr_in addr, SOCKET& client) {
 			{
 				//输入
 				std::cin >> cmds.key;
+				clear_cin();
 				//发送
 				send(client, (char*)&cmds, sizeof(commands), 0);
 			}
@@ -213,6 +226,7 @@ void working(sockaddr_in addr, SOCKET& client) {
 			{
 				//输入
 				std::cin >> cmds.key;
+				clear_cin();
 				//发送
 				send(client, (char*)&cmds, sizeof(commands), 0);
 			}
@@ -220,10 +234,96 @@ void working(sockaddr_in addr, SOCKET& client) {
 			{
 				//输入
 				std::cin >> cmds.key;
+				clear_cin();
 				send(client, (char*)&cmds, sizeof(commands), 0);
+			}
+			else if (strcmp("help", cmds.command) == 0)
+			{
+				cin >> cmds.key;
+				clear_cin();
+				if (strcmp("0", cmds.key) == 0)
+				{
+					cout << "set [key] [value]" << endl;
+					cout << "get [key]" << endl;
+					cout << "del [key]" << endl;
+					cout << "lpush [key] [value]" << endl;
+					cout << "rpush [key] [value]" << endl;
+					cout << "lpop [key]" << endl;
+					cout << "rpop [key]" << endl;
+					cout << "len [key]" << endl;
+					cout << "ldel [key]" << endl;
+					cout << "ping" << endl;
+					cout << "help [command]" << endl;
+					strcpy(cmds.command, "ping");
+					send(client, (char*)&cmds, sizeof(commands), 0);
+					continue;
+				}
+				else {
+					if (strcmp("set", cmds.key) == 0)
+					{
+						cout << "set [key] [value]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if(strcmp("get", cmds.key) == 0)
+					{
+						cout << "get [key]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("del", cmds.key) == 0)
+					{
+						cout << "del [key]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("lpush", cmds.key) == 0)
+					{
+						cout << "lpush [key] [value]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("rpush", cmds.key) == 0)
+					{
+						cout << "rpush [key] [value]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("lpop", cmds.key) == 0)
+					{
+						cout << "lpop [key]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("rpop", cmds.key) == 0)
+					{
+						cout << "rpop [key]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("ldel", cmds.key) == 0)
+					{
+						cout << "ldel [key]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else if (strcmp("len", cmds.key) == 0)
+					{
+						cout << "len [key]" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+					else
+					{
+						cout << "这是啥指令？" << endl;
+						strcpy(cmds.command, "ping");
+						send(client, (char*)&cmds, sizeof(commands), 0);
+					}
+				}
 			}
 			else {
 				std::cout << "未知的指令" << std::endl;
+				clear_cin();
 				//为了防止出现服务端未发送而导致停止在recv，发送ping
 				strcpy(cmds.command, "ping");
 				send(client, (char*)&cmds, sizeof(commands), 0);
