@@ -1,8 +1,4 @@
 ﻿  sl.cpp
-C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\新建文件夹\sl.cpp(85,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\新建文件夹\sl.cpp(124,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  源.cpp
-C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\新建文件夹\源.cpp(62,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\新建文件夹\源.cpp(302,57): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-  正在生成代码...
-  新建文件夹.vcxproj -> C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹ver0.8\x64\Debug\server.exe
+C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹\新建文件夹\sl.cpp(85,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹\新建文件夹\sl.cpp(130,11): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  新建文件夹.vcxproj -> C:\Users\30508\Desktop\后端组第二轮考核\新建文件夹ver0.7\新建文件夹\x64\Debug\server.exe

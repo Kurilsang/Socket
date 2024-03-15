@@ -47,6 +47,13 @@ public:
 	int flag;//1±íÊ¾³É¹¦£¬0±íÊ¾Ê§°Ü,Èç¹û¶àÁËÒ»¸ö¿ÉÒÔÅĞ¶Ï³É¹¦Óë·ñµÄ±äÁ¿¿ÉÒÔÈÃ½ÓÊÕ·½µÄ´¦Àí±äµÃ¸ü¼ÓÁé»î£¬Ğ´µ½Ò»°ë²ÅÒâÊ¶µ½
 };
 
+class send_vector {
+public:
+	vector<char*> vec;
+};
+
+
+
 //listÓÃÀ´ÒÆ¶¯µü´úÆ÷µÄº¯Êı
 auto findListByNum(std::list<std::string>::iterator &it, int n) {//´«Èëµü´úÆ÷£¬ÏÂ±êË÷Òı£¨ÀûÓÃµü´úÆ÷ÊµÏÖÀàËÆµÄ¸ÅÄî£©
 	for (int i = 0; i < n; i++)
@@ -59,16 +66,33 @@ auto findListByNum(std::list<std::string>::iterator &it, int n) {//´«Èëµü´úÆ÷£¬Ï
 void printList(int num1, int num2, std::list<std::string>list,SOCKET client)
 {
 	std::string temp;
+	string send_pos = "";//ÏÈÈ·¶¨Ò»ÏÂ´«ËÍµÄ×Ö·û´®
 	int size = list.size();
-	if (num1 < 0 || num2 < 0 || num2 - num1 >= size || num1 - num2 < size)
+	if (num1 < 0 || num2 < 0)
 	{
 		//ÏÂ±êÔ½½çµÄÇé¿ö£¬·¢ËÍ-1´ú±íÊ§°ÜÈÃ¿Í»§¶Ë²»ÔÙ·´¸´½ÓÊÕ£¬Õâ±ßÖ±½Óreturn
 		cout << "ÏÂ±êÔ½½ç" << endl;
 		send(client, "-1", sizeof(0), 0);
+		return;
+	}
+	if (num1 > num2 && num1 - num2 >= size)
+	{
+		cout << "ÏÂ±êÔ½½ç" << endl;
+		send(client, "-1", sizeof(0), 0);
+		return;
+	}
+	else if (num1 < num2 && num2 - num1 >= size)
+	{
+		cout << "ÏÂ±êÔ½½ç" << endl;
+		send(client, "-1", sizeof(0), 0);
+		return;
 	}
 	else if (num1 <= num2)
 	{
+		send(client, "1", sizeof(0), 0);//Õı³£ÔËĞĞ·¢ËÍÒ»ÏÂ£¬·ÀÖ¹recvºÍsend²»µÈ
 		//´ÓÇ°Íùºó±éÀú
+		send_vector send_vec;//°ÑÊı×éÏÈÈ·¶¨ÏÂÀ´
+		send_pos = "";//ÏÈ³õÊ¼»¯£¬·ÀÖ¹ÉÏ´ÎÒÅÁô
 		auto it = list.begin();
 		findListByNum(it, num1);//µü´úÆ÷ÒÆ¶¯µ½ÆğÊ¼Î»ÖÃ
 		for (int i = 0; i <= num2 - num1;i++)
@@ -81,12 +105,13 @@ void printList(int num1, int num2, std::list<std::string>list,SOCKET client)
 				it++;
 			}
 			std::cout << *it << " ";
-			temp = *it;//ÓĞÖĞ¼äÁ¿×ª»¯²ÅÄÜÔÚºóÃæÊ¹ÓÃsendº¯Êı
+			temp = *it;
 			send(client, temp.c_str(), sizeof(temp.c_str()), 0);
 		}
 		std::cout << std::endl;
 	}
 	else if(num1 > num2){
+		send(client, "1", sizeof(0), 0);//Õı³£ÔËĞĞ·¢ËÍÒ»ÏÂ£¬·ÀÖ¹recvºÍsend²»µÈ
 		//´ÓºóÍùÇ°±éÀú
 		auto it = list.begin();
 		findListByNum(it, num1);//µü´úÆ÷ÒÆ¶¯µ½ÆğÊ¼Î»ÖÃ

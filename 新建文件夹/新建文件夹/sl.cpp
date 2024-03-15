@@ -95,7 +95,15 @@ void saveload::write_hash_list(unordered_map<string, list<string>>& hash_list)
 				it_list++;
 			}
 			string t_values = *it_list;
-			fprintf(m_file, temp, t_values.c_str());
+			if (i == num - 1)
+			{
+				fprintf(m_file, "%s", t_values.c_str());
+				//bug改动
+				//最后一次循环就不要打印\t了，否则之后每次读取之后再保存会导致最后面的\t越来越多
+			}
+			else {
+				fprintf(m_file, temp, t_values.c_str());
+			}
 		}
 		//打印完这个key对应的链表后过行
 		fprintf(m_file, "\n");

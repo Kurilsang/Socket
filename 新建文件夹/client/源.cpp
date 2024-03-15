@@ -7,7 +7,11 @@
 #include <vector>
 #include "minIni.h"
 
+using namespace std;
+
 #define sizearray(a)  (sizeof(a) / sizeof((a)[0]))
+
+
 
 class commands {
 public:
@@ -80,7 +84,6 @@ void working(sockaddr_in addr, SOCKET& client) {
 		cmds.end = 0;
 		cmds.len = 0;
 		cmds.flag = 0;
-
 		int len_recv = recv(client, (char*)&cmds, sizeof(commands), 0);//第三个参数必须要为常数
 		char ip[1024];
 		inet_ntop(AF_INET, &addr.sin_addr.S_un.S_addr, ip, sizeof(ip));
@@ -143,17 +146,24 @@ void working(sockaddr_in addr, SOCKET& client) {
 				std::cin >> cmds.end;
 				send(client, (char*)&cmds, sizeof(commands), 0);
 				char flag[10] = { 0 };//判断一下到底有没有这个key
-				recv(client, flag, sizeof(flag), 0);
+				recv(client, flag, sizeof(flag), 0);//1
 				if (strcmp("1", flag) == 0)
 				{
-					recv(client, flag, sizeof(flag), 0);
-					if (strcmp("-1", flag) == 0)
+					char flag2[8] = { 0 };
+					recv(client, flag2, sizeof(flag), 0);
+					if (strcmp("-1", flag2) == 0)
 					{
 						//说明有这个链表但是输入的越界了
 						std::cout << "输入下标越界" << std::endl;
 					}
 					else if (cmds.start <= cmds.end)
 					{
+						//这种方式只能传输四个，再多就不行了
+						/*char buf[1024] = { 0 };
+						recv(client, buf, BUFSIZ, 0);
+						std::cout << buf << " ";
+						std::cout << std::endl;*/
+						//但是这种方式有可能服务端和客户端不同步的时候会导致卡recv
 						for (int i = 0; i <= cmds.end - cmds.start; i++)
 						{
 							char buf[1024] = { 0 };
